@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+          
+      
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      
+    <h:head>
+        <title>Control</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h2>CONTROL DE EMPLEADOS</h2>
+        <h:form>
+            <p:ajaxStatus style="width: 16px; height: 16px;" id="ajaxStatusPanel">
+                
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+                
+                
+                <h:form prependId="false">
+                    
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:dataTable value="#{personaBean.personas}" var="persona" editable="true">
+                    <f:facet name="header">
+                        
+                        Listado de personas 
+                        
+                    </f:facet>
+                    
+                    <p:column headerText="Nombre">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{persona.nombre}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{persona.nombre}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Apellido Paterno">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{persona.apellidoPaterno}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{persona.apellidoPaterno}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Apellido Materno">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{persona.apellidoMaterno}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{persona.apellidoMaterno}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Edad">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{persona.edad}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{persona.edad}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                        
+                        <f:facet name="footer">
+                            <h:commandButton value="Regresar" action="index"/>
+                        </f:facet>
+                        
+                        <p:column  headerText="opciones" style="width: 50px">
+                            <p:rowEditor></p:rowEditor>
+                        </p:column>>
+                         
+                        <p:ajax event="rowEdit" listener="#{personaBean.editListener}"/>
+                </p:dataTable>
+                </h:form>
+                         
+ 
+            </p:ajaxStatus>
+        </h:form>
+    </h:body>
+</html>

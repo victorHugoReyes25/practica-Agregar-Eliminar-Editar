@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Control</title>
+    </h:head>
+    <h:body>
+        <h2>CONTROL DE EMPLEADOS</h2>
+        <p:ajaxStatus style="width: 16px; height: 16px;" id="ajaxStatusPanel">
+            <f:facet name="complete">
+                <h:outputText value="yes"/>
+            </f:facet>
+        </p:ajaxStatus>
+
+        <h:form id="personasListForm">
+            <p:growl id="messages" showDetail="true"/>
+            <p:messages/>
+            
+            <p:dataTable  id="personaDatatable" value="#{personaBean.personas}" var="p" editable="true" rowKey="#{p.idPersona}"
+                          selection="#{personaBean.personaseleccionada}" selectionMode="single">
+
+                <f:facet name="header">
+
+                    Listado de personas 
+
+                </f:facet>
+
+                <p:column headerText="ID">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.idPersona}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.idPersona}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Numero de empleado">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.empleados.numeroDeEmpleado}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.empleados.numeroDeEmpleado}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Usuario">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.empleados.usuario}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.empleados.usuario}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Password">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.empleados.password}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.empleados.password}"/>
+                        </f:facet>
+                    </p:cellEditor>                   
+                </p:column>
+                
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.nombre}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.nombre}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Apellido Paterno">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.apellidoPaterno}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.apellidoPaterno}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Apellido Materno">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.apellidoMaterno}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.apellidoMaterno}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Edad">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.edad}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.edad}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <f:facet name="footer">
+                    <h:commandButton value="Regresar" action="index"/>
+                    <p:spacer height="5px"/>
+                   <p:commandButton value="Agregar" actionListener="#{personaBean.reiniciarPersonaSeleccionada}"
+                                     update=":dialogForm" oncomplete="PF('personaDialog').show()" />
+
+                </f:facet>
+
+                <p:column  headerText="opciones" style="width: 50px">
+                    
+                    <p:rowEditor/>
+
+                </p:column>
+                
+                
+                <p:ajax event="rowEdit" listener="#{personaBean.editListener}" />
+
+            </p:dataTable>
+            <p:contextMenu for="personaDatatable">
+                <p:menuitem value="Eliminar" update="personasListForm:personaDatatable" icon="ui-icon-*close"
+                            actionListener="#{personaBean.eliminarPersona()}"/> 
+            </p:contextMenu>
+        </h:form>
+        
+        <p:dialog id="personaDlg" widgetVar="personaDialog" header="Agregar Persona" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <h:form id="dialogForm">
+                <p:outputPanel id="personaDetail" style="text-align: center">
+                    <p:panelGrid id="display" columns="7" columnClasses="label, value" >
+                        
+                        <h:outputText value="Nombre"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.nombre}"/>
+                        
+                        <h:outputText value="Apellido Paterno"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.apellidoPaterno}"/>
+                        
+                        <h:outputText value="Apellido Materno"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.apellidoMaterno}"/>
+                        
+                        <h:outputText value="edad"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.edad}"/>
+                        
+                        <h:outputText value="Usuario"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.empleados.usuario}"/>
+                        
+                        <h:outputText value="Password"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.empleados.password}"/>
+                       
+                        <h:outputText value="Puesto"/>
+                        <h:inputText value="#{personaBean.personaseleccionada.empleados.puesto}"/>
+                       
+                        <f:facet name="footer">                     
+                           
+                            <p:commandButton value="Agregar" actionListener="#{personaBean.agregarPerosna}" update="display,personasListForm:personaDatatable"
+                                             oncomplete="PF('personaDialog').hide();"/>
+                         <p:spacer height="5px"/>
+                        
+                        </f:facet>
+                  </p:panelGrid>
+                </p:outputPanel>
+            </h:form>      
+        </p:dialog>
+    </h:body>
+</html>
